@@ -133,9 +133,35 @@ class FriendlyTruncationV2 extends React.PureComponent<FriendlyTruncationV2Props
       tooltipMaxWidth = 400, 
     } = this.props;
 
-    // Safe check for children content
-    const safeChildren = children !== undefined && children !== null ? children : '';
-
+    // Handle children safely - but don't render them directly in the component's root
+    const hasChildren = children !== undefined && children !== null;
+    
+    // Extract text content for the data-title attribute if possible
+    let textContent = '';
+    if (typeof children === 'string') {
+      textContent = children;
+    } else if (typeof children === 'number') {
+      textContent = children.toString();
+    } else if (React.isValidElement(children)) {
+      // Try to get text content from a React element - with type safety
+      const childrenProps = children.props as Record<string, unknown>;
+      if (childrenProps && typeof childrenProps.children === 'string') {
+        textContent = childrenProps.children;
+      } else if (childrenProps && typeof childrenProps.children === 'number') {
+        textContent = String(childrenProps.children);
+      }
+    } else if (Array.isArray(children)) {
+      // For arrays, concatenate string children
+      textContent = children
+        .map(child => {
+          if (typeof child === 'string') return child;
+          if (typeof child === 'number') return child.toString();
+          return '';
+        })
+        .join(' ')
+        .trim();
+    }
+    
     // Combine the CSS custom properties with any additional styles
     const customStyles = {
       '--truncate-line-height': lineHeight || '1.5em',
@@ -144,11 +170,34 @@ class FriendlyTruncationV2 extends React.PureComponent<FriendlyTruncationV2Props
       ...style,
     } as React.CSSProperties;
 
-    // Handle content value safely
-    let contentValue = title || '';
-    if (typeof safeChildren === 'string' && safeChildren) {
-      contentValue = title || safeChildren;
-    }
+    // Use title if provided, otherwise use extracted text if available
+    const contentValue = title || textContent;
+
+    // Handle rendering of the tooltip content
+    const renderTooltipContent = () => {
+      try {
+        // Only render strings, numbers, or valid React elements
+        if (typeof children === 'string' || typeof children === 'number' || React.isValidElement(children)) {
+          return children;
+        }
+        
+        // For arrays of elements, ensure they're valid before rendering
+        if (Array.isArray(children)) {
+          return children.map((child, index) => {
+            if (React.isValidElement(child)) {
+              return React.cloneElement(child, { key: `tooltip-child-${index}` });
+            }
+            return null;
+          });
+        }
+        
+        // Fallback to a basic string representation if content can't be directly rendered
+        return textContent || 'Content cannot be displayed';
+      } catch {
+        // Silent catch - just return fallback content
+        return 'Error rendering content';
+      }
+    };
 
     return (
       <div 
@@ -161,7 +210,14 @@ class FriendlyTruncationV2 extends React.PureComponent<FriendlyTruncationV2Props
         onMouseLeave={this.handleMouseLeave}
       >
         {/* This non-breaking space ensures the container has content */}
-        &nbsp; 
+        <span className="friendly-truncation-v2-content">
+          {typeof children === 'string' || typeof children === 'number' 
+            ? children 
+            : <>&nbsp;</>
+          }
+        </span>
+        
+        {/* Only render tooltip if showTooltip is true and tooltip is visible */}
         {!!showTooltip && !!this.state.tooltipVisible && (
           <div 
             className="v2-tooltip"
@@ -173,7 +229,7 @@ class FriendlyTruncationV2 extends React.PureComponent<FriendlyTruncationV2Props
             role="tooltip"
           >
             <div className="v2-tooltip-content">
-              {safeChildren}
+              {renderTooltipContent()}
             </div>
           </div>
         )}

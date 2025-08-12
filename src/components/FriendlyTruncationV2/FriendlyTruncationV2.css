@@ -23,6 +23,16 @@
   height: calc(var(--truncate-line-height, 1.5em) * var(--truncate-lines, 3));
 }
 
+.friendly-truncation-v2-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+}
+
 .friendly-truncation-v2::after {
   content: attr(data-title);
   display: block;
