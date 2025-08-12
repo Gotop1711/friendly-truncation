@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import type { ReactNode, CSSProperties } from 'react';
 import './FriendlyTruncationV2.css';
 
@@ -31,37 +31,47 @@ export interface FriendlyTruncationV2Props {
   tooltipPlacement?: 'top' | 'bottom' | 'left' | 'right';
 }
 
-export const FriendlyTruncationV2: React.FC<FriendlyTruncationV2Props> = ({
-  children,
-  lines = 3,
-  lineHeight = '1.5em',
-  className = '',
-  title = '',
-  style = {},
-  showTooltip = true,
-  tooltipMaxWidth = 400,
-  tooltipPlacement = 'top',
-}) => {
-  const [tooltipVisible, setTooltipVisible] = useState(false);
-  const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
-  const containerRef = useRef<HTMLDivElement>(null);
+// Use a class component to avoid React internal tracking issues that can cause
+// "Cannot read properties of undefined (reading 'recentlyCreatedOwnerStacks')" error
+class FriendlyTruncationV2 extends React.Component<FriendlyTruncationV2Props> {
+  containerRef: React.RefObject<HTMLDivElement | null>;
+  state: {
+    tooltipVisible: boolean;
+    tooltipPosition: { top: number; left: number };
+  };
 
-  // Safe check for children content
-  const safeChildren = children || '';
+  static defaultProps = {
+    lines: 3,
+    lineHeight: '1.5em',
+    className: '',
+    title: '',
+    style: {},
+    showTooltip: true,
+    tooltipMaxWidth: 400,
+    tooltipPlacement: 'top',
+  };
 
-  // Handle showing and positioning the tooltip
-  const handleMouseEnter = () => {
-    if (!showTooltip || !containerRef.current) return;
+  constructor(props: FriendlyTruncationV2Props) {
+    super(props);
+    this.containerRef = React.createRef<HTMLDivElement>();
+    this.state = {
+      tooltipVisible: false,
+      tooltipPosition: { top: 0, left: 0 },
+    };
+  }
+
+  handleMouseEnter = () => {
+    if (!this.props.showTooltip || !this.containerRef.current) return;
     
     try {
-      const rect = containerRef.current.getBoundingClientRect();
+      const rect = this.containerRef.current.getBoundingClientRect();
       
       // Calculate tooltip position based on the container position
       let top = 0;
       let left = 0;
       
       // Adjust position based on specified tooltip position
-      switch (tooltipPlacement) {
+      switch (this.props.tooltipPlacement) {
         case 'top':
           top = -10; // Position above with slight offset
           left = 0;
@@ -72,7 +82,7 @@ export const FriendlyTruncationV2: React.FC<FriendlyTruncationV2Props> = ({
           break;
         case 'left':
           top = 0;
-          left = -tooltipMaxWidth - 10; // Position to the left with slight offset
+          left = -(this.props.tooltipMaxWidth || 400) - 10; // Position to the left with slight offset
           break;
         case 'right':
           top = 0;
@@ -83,55 +93,77 @@ export const FriendlyTruncationV2: React.FC<FriendlyTruncationV2Props> = ({
           left = 0;
       }
       
-      setTooltipPosition({ top, left });
-      setTooltipVisible(true);
+      this.setState({
+        tooltipPosition: { top, left },
+        tooltipVisible: true
+      });
     } catch (error) {
       console.error('Error showing tooltip:', error);
     }
   };
 
-  const handleMouseLeave = () => {
-    setTooltipVisible(false);
+  handleMouseLeave = () => {
+    if (this.props.showTooltip) {
+      this.setState({ tooltipVisible: false });
+    }
   };
 
-  // Combine the CSS custom properties with any additional styles
-  const customStyles = {
-    '--truncate-line-height': lineHeight,
-    '--truncate-lines': lines,
-    '--tooltip-max-width': `${tooltipMaxWidth}px`,
-    ...style,
-  } as React.CSSProperties;
+  render() {
+    const { 
+      children, 
+      lines, 
+      lineHeight, 
+      className, 
+      title, 
+      style, 
+      showTooltip, 
+      tooltipMaxWidth, 
+    } = this.props;
 
-  const contentValue = typeof safeChildren === 'string' ? (title || safeChildren) : title;
+    // Safe check for children content
+    const safeChildren = children || '';
 
-  return (
-    <div 
-      className={`friendly-truncation-v2 ${className}`}
-      style={customStyles}
-      title={showTooltip ? '' : contentValue}
-      data-title={contentValue}
-      ref={containerRef}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      &nbsp;
-      {showTooltip && tooltipVisible && (
-        <div 
-          className="v2-tooltip"
-          style={{ 
-            top: tooltipPosition.top,
-            left: tooltipPosition.left,
-            maxWidth: tooltipMaxWidth,
-          }}
-          role="tooltip"
-        >
-          <div className="v2-tooltip-content">
-            {safeChildren}
+    // Combine the CSS custom properties with any additional styles
+    const customStyles = {
+      '--truncate-line-height': lineHeight,
+      '--truncate-lines': lines,
+      '--tooltip-max-width': `${tooltipMaxWidth}px`,
+      ...style,
+    } as React.CSSProperties;
+
+    const contentValue = typeof safeChildren === 'string' ? (title || safeChildren) : title;
+
+    return (
+      <div 
+        className={`friendly-truncation-v2 ${className}`}
+        style={customStyles}
+        title={showTooltip ? '' : contentValue}
+        data-title={contentValue}
+        ref={this.containerRef}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+      >
+        &nbsp;
+        {showTooltip && this.state.tooltipVisible && (
+          <div 
+            className="v2-tooltip"
+            style={{ 
+              top: this.state.tooltipPosition.top,
+              left: this.state.tooltipPosition.left,
+              maxWidth: tooltipMaxWidth,
+            }}
+            role="tooltip"
+          >
+            <div className="v2-tooltip-content">
+              {safeChildren}
+            </div>
           </div>
-        </div>
-      )}
-    </div>
-  );
-};
+        )}
+      </div>
+    );
+  }
+}
 
+// Export both as a named export and as default
+export { FriendlyTruncationV2 };
 export default FriendlyTruncationV2;
