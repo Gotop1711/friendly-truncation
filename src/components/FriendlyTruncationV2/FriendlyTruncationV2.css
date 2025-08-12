@@ -20,19 +20,29 @@
   box-sizing: border-box;
   position: relative;
   line-height: var(--truncate-line-height);
-  max-height: calc(var(--truncate-line-height) * var(--truncate-lines)); /* Show 3 lines by default */
+  height: calc(var(--truncate-line-height) * var(--truncate-lines));
   overflow: hidden;
-  background-color: var(--truncate-bg-color);
 }
 
 .friendly-truncation-v2::after {
-  content: '';
+  content: attr(data-title);
   display: block;
-  height: var(--truncate-line-height);
-  width: 40%;
+  height: calc(var(--truncate-line-height) * (var(--truncate-lines) - 1));
+  width: 100%;
   position: absolute;
-  bottom: 0;
-  right: 0;
-  background: linear-gradient(to right, transparent, var(--truncate-bg-color));
+  top: 0;
+  left: 0;
+  overflow: hidden;
 }
 
+.friendly-truncation-v2::before {
+  content: attr(data-title);
+  display: block;
+  height: calc(var(--truncate-line-height) * (var(--truncate-lines)));
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  mask-image: linear-gradient(to right, black 60%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black 60%, transparent 100%);
+}

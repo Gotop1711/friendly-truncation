@@ -12,9 +12,6 @@ export interface FriendlyTruncationV2Props {
   /** Line height for the text. Default is "1.5em". */
   lineHeight?: string;
   
-  /** Background color for the truncation container. Default is "white". */
-  backgroundColor?: string;
-  
   /** CSS class name for additional styling. */
   className?: string;
   
@@ -29,14 +26,12 @@ export const FriendlyTruncationV2: React.FC<FriendlyTruncationV2Props> = ({
   children,
   lines = 3,
   lineHeight = '1.5em',
-  backgroundColor = 'white',
   className = '',
   title = '',
   style = {},
 }) => {
   // Combine the CSS custom properties with any additional styles
   const customStyles = {
-    '--truncate-bg-color': backgroundColor,
     '--truncate-line-height': lineHeight,
     '--truncate-lines': lines,
     ...style,
@@ -47,9 +42,8 @@ export const FriendlyTruncationV2: React.FC<FriendlyTruncationV2Props> = ({
       className={`friendly-truncation-v2 ${className}`}
       style={customStyles}
       title={typeof children === 'string' ? (title || children) : title}
-    >
-      {children}
-    </div>
+      data-title={typeof children === 'string' ? (title || children) : title}
+    />
   );
 };
 
