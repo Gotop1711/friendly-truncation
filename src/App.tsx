@@ -49,7 +49,7 @@ function App() {
       </div>
 
       <div id="friendly-truncation-v1" style={{ order: 2 }}>
-        <h1>Friendly Truncation V1 Component</h1>
+        <h1>Friendly Truncation V1 Component (Deprecated)</h1>
 
         <div className="demo-section">
           <h2>Hover to See Tooltip (Default)</h2>
