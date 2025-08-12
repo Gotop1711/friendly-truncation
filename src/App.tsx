@@ -1,9 +1,10 @@
 import './App.css'
 import { FriendlyTruncation } from './components/FriendlyTruncation'
 import { FriendlyTruncationV2 } from './components/FriendlyTruncationV2'
+import { useState } from 'react'
 
-// Sample long text for demonstration
-const longText = `
+// Default sample text for demonstration
+const defaultLongText = `
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam at justo vel nunc volutpat sollicitudin. 
 Cras consectetur, libero non pharetra finibus, odio nulla vehicula tellus, vel rhoncus mi magna non lacus. 
 Suspendisse potenti. Morbi mattis purus at nisl vehicula, ut scelerisque libero tempus. Quisque mattis nulla a turpis semper, ac consequat nisl semper. 
@@ -15,18 +16,45 @@ Etiam in neque diam. Suspendisse at mauris elementum, semper quam ut, facilisis 
 Donec maximus dui ut velit pretium, sed interdum massa elementum. Donec eget urna scelerisque, vehicula magna a, iaculis dui.
 `;
 
-const shortText = "This text is short and won't be truncated unless the maxHeight or lines properties are set very low.";
-
 function App() {
+  const [userText, setUserText] = useState(defaultLongText);
+  const [displayedText, setDisplayedText] = useState(defaultLongText);
+  
+  const handleApplyText = () => {
+    setDisplayedText(userText);
+  };
+  
+  const handleResetText = () => {
+    setUserText(defaultLongText);
+    setDisplayedText(defaultLongText);
+  };
+  
   return (
     <div className="app-container">
       <h1>Friendly Truncation Component</h1>
+      
+      <div className="text-input-section">
+        <h2>Try with your own text</h2>
+        <div className="input-container">
+          <textarea 
+            className="text-input" 
+            value={userText}
+            onChange={(e) => setUserText(e.target.value)}
+            rows={8}
+            placeholder="Enter your text here..."
+          />
+          <div className="button-group">
+            <button className="apply-button" onClick={handleApplyText}>Apply Text</button>
+            <button className="reset-button" onClick={handleResetText}>Reset to Default</button>
+          </div>
+        </div>
+      </div>
       
       <div className="demo-section">
         <h2>Hover to See Tooltip (Default)</h2>
         <div className="demo-card">
           <FriendlyTruncation maxHeight={80}>
-            {longText}
+            {displayedText}
           </FriendlyTruncation>
         </div>
       </div>
@@ -35,7 +63,7 @@ function App() {
         <h2>Line-based Truncation with Tooltip</h2>
         <div className="demo-card">
           <FriendlyTruncation lines={3}>
-            {longText}
+            {displayedText}
           </FriendlyTruncation>
         </div>
       </div>
@@ -50,7 +78,7 @@ function App() {
             readMoreText="Read full text"
             showLessText="Collapse text"
           >
-            {longText}
+            {displayedText}
           </FriendlyTruncation>
         </div>
       </div>
@@ -64,7 +92,7 @@ function App() {
             tooltipPlacement="right"
             tooltipMaxWidth={300}
           >
-            {longText}
+            {displayedText}
           </FriendlyTruncation>
         </div>
       </div>
@@ -78,16 +106,7 @@ function App() {
             tooltipPlacement="bottom"
             tooltipMaxWidth={350}
           >
-            {longText}
-          </FriendlyTruncation>
-        </div>
-      </div>
-      
-      <div className="demo-section">
-        <h2>Short Text (No Truncation)</h2>
-        <div className="demo-card">
-          <FriendlyTruncation maxHeight={100}>
-            {shortText}
+            {displayedText}
           </FriendlyTruncation>
         </div>
       </div>
@@ -104,7 +123,7 @@ function App() {
                 <li>List item 2</li>
                 <li>List item 3</li>
               </ul>
-              <p>{longText.substring(0, 200)}...</p>
+              <p>{displayedText}</p>
             </div>
           </FriendlyTruncation>
         </div>
@@ -120,7 +139,7 @@ function App() {
             lineHeight="1.5em"
             style={{ color: 'red' }}
           >
-            {longText}
+            {displayedText}
           </FriendlyTruncationV2>
         </div>
       </div>
@@ -134,7 +153,7 @@ function App() {
             tooltipPlacement="right"
             tooltipMaxWidth={300}
           >
-            {longText}
+            {displayedText}
           </FriendlyTruncationV2>
         </div>
       </div>
@@ -148,7 +167,7 @@ function App() {
             tooltipPlacement="bottom"
             tooltipMaxWidth={350}
           >
-            {longText}
+            {displayedText}
           </FriendlyTruncationV2>
         </div>
       </div>
