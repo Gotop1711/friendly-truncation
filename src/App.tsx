@@ -114,11 +114,11 @@ function App() {
       
       <div className="demo-section">
         <h2>Basic Example with Custom Lines</h2>
-        <div className="demo-card">
+        <div className="demo-card" style={{ backgroundColor: '#484848' }}>
           <FriendlyTruncationV2
             lines={4}
             lineHeight="1.5em"
-            backgroundColor="white"
+            style={{ color: 'red' }}
           >
             {longText}
           </FriendlyTruncationV2>
