@@ -173,7 +173,40 @@ class FriendlyTruncationV2 extends React.PureComponent<FriendlyTruncationV2Props
     // Use title if provided, otherwise use extracted text if available
     const contentValue = title || textContent;
 
-    // Handle rendering of the tooltip content
+    // Helper function to serialize content for data-title attribute
+    const serializeForDataTitle = (content: ReactNode): string => {
+      try {
+        if (typeof content === 'string') {
+          return content;
+        } else if (typeof content === 'number') {
+          return content.toString();
+        } else if (React.isValidElement(content)) {
+          // For React elements, try to extract text content
+          const props = content.props as Record<string, unknown>;
+          if (props && typeof props.children === 'string') {
+            return props.children;
+          } else if (props && typeof props.children === 'number') {
+            return String(props.children);
+          } else {
+            // For complex elements, return a simple representation
+            const type = content.type;
+            return (typeof type === 'function' && type.name) || 'Component';
+          }
+        } else if (Array.isArray(content)) {
+          // For arrays, process each item and join
+          return content
+            .map(item => serializeForDataTitle(item))
+            .filter(Boolean)
+            .join(' ');
+        }
+        // Fallback for other types
+        return contentValue || '';
+      } catch {
+        return contentValue || '';
+      }
+    };
+
+    // Handle rendering of the tooltip content for actual tooltip
     const renderTooltipContent = () => {
       try {
         // Only render strings, numbers, or valid React elements
@@ -204,9 +237,7 @@ class FriendlyTruncationV2 extends React.PureComponent<FriendlyTruncationV2Props
         className={`friendly-truncation-v2 ${className}`}
         style={customStyles}
         title={showTooltip ? '' : contentValue}
-        data-title={
-          renderTooltipContent()
-        }
+        data-title={serializeForDataTitle(children)}
         ref={this.containerRef}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
