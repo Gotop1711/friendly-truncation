@@ -48,7 +48,7 @@ function App() {
         </div>
       </div>
 
-      <div id="friendly-truncation-v1">
+      <div id="friendly-truncation-v1" style={{ order: 2 }}>
         <h1>Friendly Truncation V1 Component</h1>
 
         <div className="demo-section">
@@ -130,7 +130,7 @@ function App() {
           </div>
         </div>
       </div>
-      <div id="friendly-truncation-v2">
+      <div id="friendly-truncation-v2" style={{ order: 1 }}>
         <h1>FriendlyTruncationV2 Component Examples</h1>
         
         <div className="demo-section">
