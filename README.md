@@ -142,8 +142,14 @@ npm install
 # Start the development server
 npm run dev
 
-# Build for production
+# Build the library
 npm run build
+
+# Build and preview the demo
+npm run preview
+
+# Build only the demo
+npm run build:demo
 ```
 
 ## License

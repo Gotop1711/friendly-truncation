@@ -11,9 +11,10 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build --config vite.lib.config.ts",
+    "build:demo": "vite build --config vite.demo.config.ts",
     "lint": "eslint .",
-    "preview": "vite preview",
+    "preview": "npm run build:demo && vite preview --outDir demo-dist",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
