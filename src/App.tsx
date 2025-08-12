@@ -124,6 +124,34 @@ function App() {
           </FriendlyTruncationV2>
         </div>
       </div>
+
+      <div className="demo-section">
+        <h2>V2 with Custom Tooltip Placement (Right)</h2>
+        <div className="demo-card">
+          <FriendlyTruncationV2
+            lines={3}
+            lineHeight="1.5em"
+            tooltipPlacement="right"
+            tooltipMaxWidth={300}
+          >
+            {longText}
+          </FriendlyTruncationV2>
+        </div>
+      </div>
+
+      <div className="demo-section">
+        <h2>V2 with Custom Tooltip Placement (Bottom)</h2>
+        <div className="demo-card">
+          <FriendlyTruncationV2
+            lines={2}
+            lineHeight="1.5em"
+            tooltipPlacement="bottom"
+            tooltipMaxWidth={350}
+          >
+            {longText}
+          </FriendlyTruncationV2>
+        </div>
+      </div>
     </div>
   )
 }
