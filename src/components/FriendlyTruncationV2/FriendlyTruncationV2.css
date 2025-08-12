@@ -21,7 +21,6 @@
   position: relative;
   line-height: var(--truncate-line-height);
   height: calc(var(--truncate-line-height) * var(--truncate-lines));
-  overflow: hidden;
 }
 
 .friendly-truncation-v2::after {
@@ -45,4 +44,39 @@
   left: 0;
   mask-image: linear-gradient(to right, black 60%, transparent 100%);
   -webkit-mask-image: linear-gradient(to right, black 60%, transparent 100%);
+}
+
+/* Tooltip styling for V2 */
+.v2-tooltip {
+  position: absolute;
+  max-width: var(--tooltip-max-width, 400px);
+  min-width: 200px;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 12px;
+  z-index: 1000;
+  opacity: 1;
+  visibility: visible;
+  animation: v2FadeIn 0.2s ease forwards;
+  overflow: auto;
+  max-height: 80vh;
+}
+
+.v2-tooltip-content {
+  font-size: 1em;
+  line-height: 1.5;
+  color: #333;
+}
+
+/* Animation for tooltip */
+@keyframes v2FadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
