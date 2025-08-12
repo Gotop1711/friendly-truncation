@@ -134,12 +134,14 @@ function App() {
         <h1>FriendlyTruncationV2 Component Examples</h1>
         
         <div className="demo-section">
-          <h2>Basic Example with Custom Lines</h2>
+          <h2>Basic Example without customized tooltip</h2>
+          <p>Just with browser default HTML "title" attribute tooltip</p>
           <div className="demo-card" style={{ backgroundColor: '#484848' }}>
             <FriendlyTruncationV2
               lines={4}
               lineHeight="1.5em"
               style={{ color: 'red' }}
+              showTooltip={false}
             >
               {displayedText}
             </FriendlyTruncationV2>
