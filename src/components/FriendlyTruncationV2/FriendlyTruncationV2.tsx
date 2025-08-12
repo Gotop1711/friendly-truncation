@@ -46,9 +46,14 @@ export const FriendlyTruncationV2: React.FC<FriendlyTruncationV2Props> = ({
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // Safe check for children content
+  const safeChildren = children || '';
+
   // Handle showing and positioning the tooltip
   const handleMouseEnter = () => {
-    if (showTooltip && containerRef.current) {
+    if (!showTooltip || !containerRef.current) return;
+    
+    try {
       const rect = containerRef.current.getBoundingClientRect();
       
       // Calculate tooltip position based on the container position
@@ -80,13 +85,13 @@ export const FriendlyTruncationV2: React.FC<FriendlyTruncationV2Props> = ({
       
       setTooltipPosition({ top, left });
       setTooltipVisible(true);
+    } catch (error) {
+      console.error('Error showing tooltip:', error);
     }
   };
 
   const handleMouseLeave = () => {
-    if (showTooltip) {
-      setTooltipVisible(false);
-    }
+    setTooltipVisible(false);
   };
 
   // Combine the CSS custom properties with any additional styles
@@ -97,7 +102,7 @@ export const FriendlyTruncationV2: React.FC<FriendlyTruncationV2Props> = ({
     ...style,
   } as React.CSSProperties;
 
-  const contentValue = typeof children === 'string' ? (title || children) : title;
+  const contentValue = typeof safeChildren === 'string' ? (title || safeChildren) : title;
 
   return (
     <div 
@@ -109,6 +114,7 @@ export const FriendlyTruncationV2: React.FC<FriendlyTruncationV2Props> = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
+      &nbsp;
       {showTooltip && tooltipVisible && (
         <div 
           className="v2-tooltip"
@@ -120,7 +126,7 @@ export const FriendlyTruncationV2: React.FC<FriendlyTruncationV2Props> = ({
           role="tooltip"
         >
           <div className="v2-tooltip-content">
-            {children}
+            {safeChildren}
           </div>
         </div>
       )}

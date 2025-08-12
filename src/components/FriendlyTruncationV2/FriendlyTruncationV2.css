@@ -19,31 +19,33 @@
 .friendly-truncation-v2 {
   box-sizing: border-box;
   position: relative;
-  line-height: var(--truncate-line-height);
-  height: calc(var(--truncate-line-height) * var(--truncate-lines));
+  line-height: var(--truncate-line-height, 1.5em);
+  height: calc(var(--truncate-line-height, 1.5em) * var(--truncate-lines, 3));
 }
 
 .friendly-truncation-v2::after {
   content: attr(data-title);
   display: block;
-  height: calc(var(--truncate-line-height) * (var(--truncate-lines) - 1));
+  height: calc(var(--truncate-line-height, 1.5em) * (var(--truncate-lines, 3) - 1));
   width: 100%;
   position: absolute;
   top: 0;
   left: 0;
   overflow: hidden;
+  pointer-events: none;
 }
 
 .friendly-truncation-v2::before {
   content: attr(data-title);
   display: block;
-  height: calc(var(--truncate-line-height) * (var(--truncate-lines)));
+  height: calc(var(--truncate-line-height, 1.5em) * (var(--truncate-lines, 3)));
   width: 100%;
   position: absolute;
   top: 0;
   left: 0;
   mask-image: linear-gradient(to right, black 60%, transparent 100%);
   -webkit-mask-image: linear-gradient(to right, black 60%, transparent 100%);
+  pointer-events: none;
 }
 
 /* Tooltip styling for V2 */
@@ -61,6 +63,7 @@
   animation: v2FadeIn 0.2s ease forwards;
   overflow: auto;
   max-height: 80vh;
+  pointer-events: auto;
 }
 
 .v2-tooltip-content {
