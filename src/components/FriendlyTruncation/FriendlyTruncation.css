@@ -1,0 +1,123 @@
+.friendly-truncation {
+  position: relative;
+  height: var(--max-height, 100px);
+  width: 100%;
+}
+
+/* Truncated content container */
+.truncated-content {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Blur overlay for truncated content */
+.blur-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px; /* Height of the blur effect */
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.5) 30%,
+    rgba(255, 255, 255, 0.7) 50%,
+    rgba(255, 255, 255, 0.9) 70%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  pointer-events: none; /* Allow clicking through the overlay */
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding-right: 10px;
+  padding-bottom: 5px;
+}
+
+/* Ellipsis styling */
+.ellipsis {
+  font-weight: bold;
+  color: #666;
+  padding: 0 5px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+}
+
+/* Toggle button for expand/collapse */
+.toggle-button {
+  margin-top: 5px;
+  background: none;
+  border: none;
+  color: #0066cc;
+  cursor: pointer;
+  font-size: 0.9em;
+  padding: 2px 5px;
+  text-decoration: underline;
+  z-index: 2;
+  position: relative;
+}
+
+.toggle-button:hover {
+  color: #004499;
+}
+
+/* Accessibility focus styles */
+.toggle-button:focus {
+  outline: 2px solid #0066cc;
+  outline-offset: 2px;
+}
+
+/* Tooltip styling */
+.content-tooltip {
+  position: absolute;
+  max-width: var(--tooltip-max-width, 400px);
+  min-width: 200px;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 12px;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  animation: fadeIn 0.2s ease forwards;
+  overflow: auto;
+  max-height: 80vh;
+}
+
+.friendly-truncation:hover .content-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.tooltip-content {
+  font-size: 1em;
+  line-height: 1.5;
+}
+
+/* Expanded content for click to expand */
+.expanded-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  padding: 1px; /* Tiny padding to avoid margins collapse */
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+
+/* Animation for tooltip */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
