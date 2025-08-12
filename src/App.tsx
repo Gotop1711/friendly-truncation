@@ -1,5 +1,6 @@
 import './App.css'
 import { FriendlyTruncation } from './components/FriendlyTruncation'
+import { FriendlyTruncationV2 } from './components/FriendlyTruncationV2'
 
 // Sample long text for demonstration
 const longText = `
@@ -24,17 +25,9 @@ function App() {
       <div className="demo-section">
         <h2>Hover to See Tooltip (Default)</h2>
         <div className="demo-card">
-          <div
-            className="friendly-truncation-v2"
-            title={longText}
-            style={{
-              '--truncate-bg-color': 'white',
-              '--truncate-line-height': '1.5em',
-              '--truncate-lines': '4',
-            }}
-          >
+          <FriendlyTruncation maxHeight={80}>
             {longText}
-          </div>
+          </FriendlyTruncation>
         </div>
       </div>
       
@@ -114,6 +107,21 @@ function App() {
               <p>{longText.substring(0, 200)}...</p>
             </div>
           </FriendlyTruncation>
+        </div>
+      </div>
+
+      <h1>FriendlyTruncationV2 Component Examples</h1>
+      
+      <div className="demo-section">
+        <h2>Basic Example with Custom Lines</h2>
+        <div className="demo-card">
+          <FriendlyTruncationV2
+            lines={4}
+            lineHeight="1.5em"
+            backgroundColor="white"
+          >
+            {longText}
+          </FriendlyTruncationV2>
         </div>
       </div>
     </div>
