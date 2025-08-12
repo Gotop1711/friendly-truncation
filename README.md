@@ -2,7 +2,7 @@
 
 A React component for elegantly truncating text content with a blur effect and tooltip display. This component provides a beautiful user experience for handling excessive text by implementing a gradual blur effect at the truncation point and offering a floating tooltip with the full content on hover.
 
-## Latest Updates (v1.0.5)
+## Latest Updates (v1.0.7)
 
 - Improved React 18 compatibility in FriendlyTruncationV2
 - Enhanced handling of React elements as children
@@ -45,7 +45,7 @@ yarn add friendly-truncation
 
 ```jsx
 import { FriendlyTruncation } from 'friendly-truncation';
-import 'friendly-truncation/dist/styles.css'; // Import the styles
+import 'friendly-truncation/dist/friendly-truncation.css';
 
 function App() {
   return (
