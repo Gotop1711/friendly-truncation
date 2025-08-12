@@ -31,9 +31,14 @@ export interface FriendlyTruncationV2Props {
   tooltipPlacement?: 'top' | 'bottom' | 'left' | 'right';
 }
 
-// Use a class component to avoid React internal tracking issues that can cause
-// "Cannot read properties of undefined (reading 'recentlyCreatedOwnerStacks')" error
-class FriendlyTruncationV2 extends React.Component<FriendlyTruncationV2Props> {
+/**
+ * FriendlyTruncationV2 - A class-based component designed for maximum compatibility across React versions,
+ * including React 18.2.0
+ * 
+ * This component uses class-based approach which avoids issues with React's
+ * internal tracking mechanisms that can cause errors with "recentlyCreatedOwnerStacks"
+ */
+class FriendlyTruncationV2 extends React.PureComponent<FriendlyTruncationV2Props> {
   containerRef: React.RefObject<HTMLDivElement | null>;
   state: {
     tooltipVisible: boolean;
@@ -53,14 +58,19 @@ class FriendlyTruncationV2 extends React.Component<FriendlyTruncationV2Props> {
 
   constructor(props: FriendlyTruncationV2Props) {
     super(props);
-    this.containerRef = React.createRef<HTMLDivElement>();
+    // Use React.createRef() which is compatible with all React versions
+    this.containerRef = React.createRef();
     this.state = {
       tooltipVisible: false,
       tooltipPosition: { top: 0, left: 0 },
     };
+
+    // Bind methods to avoid context issues
+    this.handleMouseEnter = this.handleMouseEnter.bind(this);
+    this.handleMouseLeave = this.handleMouseLeave.bind(this);
   }
 
-  handleMouseEnter = () => {
+  handleMouseEnter() {
     if (!this.props.showTooltip || !this.containerRef.current) return;
     
     try {
@@ -98,40 +108,47 @@ class FriendlyTruncationV2 extends React.Component<FriendlyTruncationV2Props> {
         tooltipVisible: true
       });
     } catch (error) {
-      console.error('Error showing tooltip:', error);
+      // Silent fail is safer across React versions
+      if (process.env.NODE_ENV !== 'production') {
+        console.error('Error showing tooltip:', error);
+      }
     }
-  };
+  }
 
-  handleMouseLeave = () => {
+  handleMouseLeave() {
     if (this.props.showTooltip) {
       this.setState({ tooltipVisible: false });
     }
-  };
+  }
 
   render() {
     const { 
       children, 
       lines, 
       lineHeight, 
-      className, 
-      title, 
-      style, 
-      showTooltip, 
-      tooltipMaxWidth, 
+      className = '', 
+      title = '', 
+      style = {}, 
+      showTooltip = true, 
+      tooltipMaxWidth = 400, 
     } = this.props;
 
     // Safe check for children content
-    const safeChildren = children || '';
+    const safeChildren = children !== undefined && children !== null ? children : '';
 
     // Combine the CSS custom properties with any additional styles
     const customStyles = {
-      '--truncate-line-height': lineHeight,
-      '--truncate-lines': lines,
+      '--truncate-line-height': lineHeight || '1.5em',
+      '--truncate-lines': lines || 3,
       '--tooltip-max-width': `${tooltipMaxWidth}px`,
       ...style,
     } as React.CSSProperties;
 
-    const contentValue = typeof safeChildren === 'string' ? (title || safeChildren) : title;
+    // Handle content value safely
+    let contentValue = title || '';
+    if (typeof safeChildren === 'string' && safeChildren) {
+      contentValue = title || safeChildren;
+    }
 
     return (
       <div 
@@ -143,8 +160,9 @@ class FriendlyTruncationV2 extends React.Component<FriendlyTruncationV2Props> {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
       >
-        &nbsp;
-        {showTooltip && this.state.tooltipVisible && (
+        {/* This non-breaking space ensures the container has content */}
+        &nbsp; 
+        {!!showTooltip && !!this.state.tooltipVisible && (
           <div 
             className="v2-tooltip"
             style={{ 
