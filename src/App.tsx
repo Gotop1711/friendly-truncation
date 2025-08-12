@@ -31,8 +31,6 @@ function App() {
   
   return (
     <div className="app-container">
-      <h1>Friendly Truncation Component</h1>
-      
       <div className="text-input-section">
         <h2>Try with your own text</h2>
         <div className="input-container">
@@ -49,126 +47,131 @@ function App() {
           </div>
         </div>
       </div>
-      
-      <div className="demo-section">
-        <h2>Hover to See Tooltip (Default)</h2>
-        <div className="demo-card">
-          <FriendlyTruncation maxHeight={80}>
-            {displayedText}
-          </FriendlyTruncation>
-        </div>
-      </div>
-      
-      <div className="demo-section">
-        <h2>Line-based Truncation with Tooltip</h2>
-        <div className="demo-card">
-          <FriendlyTruncation lines={3}>
-            {displayedText}
-          </FriendlyTruncation>
-        </div>
-      </div>
-      
-      <div className="demo-section">
-        <h2>Click to Expand/Collapse (No Hover Tooltip)</h2>
-        <div className="demo-card">
-          <FriendlyTruncation 
-            maxHeight={100} 
-            expandOnHover={false}
-            expandOnClick={true}
-            readMoreText="Read full text"
-            showLessText="Collapse text"
-          >
-            {displayedText}
-          </FriendlyTruncation>
-        </div>
-      </div>
-      
-      <div className="demo-section">
-        <h2>Custom Tooltip Position (Right)</h2>
-        <div className="demo-card">
-          <FriendlyTruncation 
-            maxHeight={80} 
-            ellipsis="[More]" 
-            tooltipPlacement="right"
-            tooltipMaxWidth={300}
-          >
-            {displayedText}
-          </FriendlyTruncation>
-        </div>
-      </div>
-      
-      <div className="demo-section">
-        <h2>Custom Tooltip Position (Bottom)</h2>
-        <div className="demo-card">
-          <FriendlyTruncation 
-            maxHeight={80} 
-            ellipsis="[Hover]" 
-            tooltipPlacement="bottom"
-            tooltipMaxWidth={350}
-          >
-            {displayedText}
-          </FriendlyTruncation>
-        </div>
-      </div>
-      
-      <div className="demo-section">
-        <h2>With HTML Content</h2>
-        <div className="demo-card">
-          <FriendlyTruncation maxHeight={100}>
-            <div>
-              <p><strong>This is a paragraph with HTML formatting.</strong></p>
-              <p>It contains <em>multiple elements</em> and will still be properly truncated.</p>
-              <ul>
-                <li>List item 1</li>
-                <li>List item 2</li>
-                <li>List item 3</li>
-              </ul>
-              <p>{displayedText}</p>
-            </div>
-          </FriendlyTruncation>
-        </div>
-      </div>
 
-      <h1>FriendlyTruncationV2 Component Examples</h1>
-      
-      <div className="demo-section">
-        <h2>Basic Example with Custom Lines</h2>
-        <div className="demo-card" style={{ backgroundColor: '#484848' }}>
-          <FriendlyTruncationV2
-            lines={4}
-            lineHeight="1.5em"
-            style={{ color: 'red' }}
-          >
-            {displayedText}
-          </FriendlyTruncationV2>
+      <div id="friendly-truncation-v1">
+        <h1>Friendly Truncation V1 Component</h1>
+
+        <div className="demo-section">
+          <h2>Hover to See Tooltip (Default)</h2>
+          <div className="demo-card">
+            <FriendlyTruncation maxHeight={80}>
+              {displayedText}
+            </FriendlyTruncation>
+          </div>
+        </div>
+        
+        <div className="demo-section">
+          <h2>Line-based Truncation with Tooltip</h2>
+          <div className="demo-card">
+            <FriendlyTruncation lines={3}>
+              {displayedText}
+            </FriendlyTruncation>
+          </div>
+        </div>
+        
+        <div className="demo-section">
+          <h2>Click to Expand/Collapse (No Hover Tooltip)</h2>
+          <div className="demo-card">
+            <FriendlyTruncation 
+              maxHeight={100} 
+              expandOnHover={false}
+              expandOnClick={true}
+              readMoreText="Read full text"
+              showLessText="Collapse text"
+            >
+              {displayedText}
+            </FriendlyTruncation>
+          </div>
+        </div>
+        
+        <div className="demo-section">
+          <h2>Custom Tooltip Position (Right)</h2>
+          <div className="demo-card">
+            <FriendlyTruncation 
+              maxHeight={80} 
+              ellipsis="[More]" 
+              tooltipPlacement="right"
+              tooltipMaxWidth={300}
+            >
+              {displayedText}
+            </FriendlyTruncation>
+          </div>
+        </div>
+        
+        <div className="demo-section">
+          <h2>Custom Tooltip Position (Bottom)</h2>
+          <div className="demo-card">
+            <FriendlyTruncation 
+              maxHeight={80} 
+              ellipsis="[Hover]" 
+              tooltipPlacement="bottom"
+              tooltipMaxWidth={350}
+            >
+              {displayedText}
+            </FriendlyTruncation>
+          </div>
+        </div>
+        
+        <div className="demo-section">
+          <h2>With HTML Content</h2>
+          <div className="demo-card">
+            <FriendlyTruncation maxHeight={100}>
+              <div>
+                <p><strong>This is a paragraph with HTML formatting.</strong></p>
+                <p>It contains <em>multiple elements</em> and will still be properly truncated.</p>
+                <ul>
+                  <li>List item 1</li>
+                  <li>List item 2</li>
+                  <li>List item 3</li>
+                </ul>
+                <p>{displayedText}</p>
+              </div>
+            </FriendlyTruncation>
+          </div>
         </div>
       </div>
-
-      <div className="demo-section">
-        <h2>V2 with Custom Tooltip Placement (Right)</h2>
-        <div className="demo-card">
-          <FriendlyTruncationV2
-            lines={3}
-            lineHeight="1.5em"
-            tooltipPlacement="right"
-            tooltipMaxWidth={300}
-          >
-            {displayedText}
-          </FriendlyTruncationV2>
+      <div id="friendly-truncation-v2">
+        <h1>FriendlyTruncationV2 Component Examples</h1>
+        
+        <div className="demo-section">
+          <h2>Basic Example with Custom Lines</h2>
+          <div className="demo-card" style={{ backgroundColor: '#484848' }}>
+            <FriendlyTruncationV2
+              lines={4}
+              lineHeight="1.5em"
+              style={{ color: 'red' }}
+            >
+              {displayedText}
+            </FriendlyTruncationV2>
+          </div>
         </div>
-      </div>
 
-      <div className="demo-section">
-        <h2>V2 with Custom Tooltip Placement (Bottom)</h2>
-        <div className="demo-card">
-          <FriendlyTruncationV2
-            lines={2}
-            lineHeight="1.5em"
-            tooltipPlacement="bottom"
-            tooltipMaxWidth={350}
-          >
-            {displayedText}
-          </FriendlyTruncationV2>
+        <div className="demo-section">
+          <h2>V2 with Custom Tooltip Placement (Right)</h2>
+          <div className="demo-card">
+            <FriendlyTruncationV2
+              lines={3}
+              lineHeight="1.5em"
+              tooltipPlacement="right"
+              tooltipMaxWidth={300}
+            >
+              {displayedText}
+            </FriendlyTruncationV2>
+          </div>
+        </div>
+
+        <div className="demo-section">
+          <h2>V2 with Custom Tooltip Placement (Bottom)</h2>
+          <div className="demo-card">
+            <FriendlyTruncationV2
+              lines={2}
+              lineHeight="1.5em"
+              tooltipPlacement="bottom"
+              tooltipMaxWidth={350}
+            >
+              {displayedText}
+            </FriendlyTruncationV2>
+          </div>
         </div>
       </div>
     </div>
