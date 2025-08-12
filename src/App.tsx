@@ -24,9 +24,17 @@ function App() {
       <div className="demo-section">
         <h2>Hover to See Tooltip (Default)</h2>
         <div className="demo-card">
-          <FriendlyTruncation maxHeight={80}>
+          <div
+            className="friendly-truncation-v2"
+            title={longText}
+            style={{
+              '--truncate-bg-color': 'white',
+              '--truncate-line-height': '1.5em',
+              '--truncate-lines': '4',
+            }}
+          >
             {longText}
-          </FriendlyTruncation>
+          </div>
         </div>
       </div>
       
