@@ -204,7 +204,9 @@ class FriendlyTruncationV2 extends React.PureComponent<FriendlyTruncationV2Props
         className={`friendly-truncation-v2 ${className}`}
         style={customStyles}
         title={showTooltip ? '' : contentValue}
-        data-title={contentValue}
+        data-title={
+          renderTooltipContent()
+        }
         ref={this.containerRef}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
