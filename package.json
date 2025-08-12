@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build --config vite.lib.config.ts",
+    "build": "tsc -p tsconfig.build.json && vite build --config vite.lib.config.ts",
     "build:demo": "vite build --config vite.demo.config.ts",
     "lint": "eslint .",
     "preview": "npm run build:demo && vite preview --outDir demo-dist",
@@ -28,16 +28,16 @@
     "collapse",
     "ui"
   ],
-  "author": "",
+  "author": "Gotop1711",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/friendly-truncation"
+    "url": "git+https://github.com/Gotop1711/friendly-truncation.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/friendly-truncation/issues"
+    "url": "https://github.com/Gotop1711/friendly-truncation/issues"
   },
-  "homepage": "https://github.com/yourusername/friendly-truncation#readme",
+  "homepage": "https://github.com/Gotop1711/friendly-truncation#readme",
   "peerDependencies": {
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"

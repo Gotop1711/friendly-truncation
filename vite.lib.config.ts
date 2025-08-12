@@ -12,11 +12,17 @@ const __dirname = dirname(__filename)
 export default defineConfig({
   plugins: [
     react(),
-    dts({ include: ['src/components'] })
+    dts({
+      include: ['src'],
+      exclude: ['src/main.tsx', 'src/App.tsx'],
+      outDir: 'dist',
+      entryRoot: 'src',
+      tsconfigPath: 'tsconfig.build.json'
+    })
   ],
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/components/FriendlyTruncation/index.ts'),
+      entry: resolve(__dirname, 'src/index.ts'),
       name: 'FriendlyTruncation',
       fileName: (format) => `friendly-truncation.${format === 'es' ? 'mjs' : 'js'}`,
       formats: ['es', 'umd'],

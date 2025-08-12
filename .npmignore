@@ -1,0 +1,30 @@
+# Development files
+node_modules/
+src/
+public/
+.vscode/
+.idea/
+.github/
+
+# Build configs
+vite.config.ts
+vite.demo.config.ts
+tsconfig.app.json
+tsconfig.json
+tsconfig.node.json
+eslint.config.js
+
+# Demo files
+demo-dist/
+index.html
+
+# Git files
+.git/
+.gitignore
+
+# Misc
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
