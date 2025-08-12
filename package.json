@@ -1,6 +1,6 @@
 {
   "name": "friendly-truncation",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A React component for elegantly truncating text content with a fade effect",
   "type": "module",
   "main": "dist/friendly-truncation.js",
