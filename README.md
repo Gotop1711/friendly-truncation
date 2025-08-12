@@ -4,6 +4,7 @@ A React component for elegantly truncating text content with a blur effect and t
 
 ## Latest Updates (v1.0.7)
 
+- Updated peer dependencies to specifically target React 18
 - Improved React 18 compatibility in FriendlyTruncationV2
 - Enhanced handling of React elements as children
 - Fixed "Objects are not valid as a React child" error
